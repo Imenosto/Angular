@@ -1,0 +1,39 @@
+<form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+
+  <label>Titre</label>
+  <input type="text" formControlName="title" class="form-control mb-3"
+         [ngClass]="{'is-invalid': title.invalid && (title.dirty || submit)}">
+  @if (title.errors?.['required'] && (title.dirty || submit)) {
+    <p class="text-danger">required</p>
+  }
+
+  <label>Contenu</label>
+  <textarea formControlName="body" class="form-control mb-3"
+            [ngClass]="{'is-invalid': body.invalid && (body.dirty || submit)}"></textarea>
+  @if (body.errors?.['required'] && (body.dirty || submit)) {
+    <p class="text-danger">required</p>
+  }
+
+  <label>Commentaires</label>
+  <div formArrayName="comments">
+    @for (comment of comments.controls; track comment;let i = $index) {
+      <div class="d-flex gap-2 mb-2">
+        <input
+          type="text"
+          class="form-control"
+          [formControlName]="i"
+          placeholder="Commentaire {{ i + 1 }}"
+          [ngClass]="{'is-invalid': comment.invalid && (comment.dirty || submit)}"
+        >
+        <button type="button" class="btn btn-danger" (click)="removeComment(i)">X</button>
+        @if (comment.errors?.['required'] && (comment.dirty || submit)) {
+          <div class="invalid-feedback d-block">required</div>
+        }
+      </div>
+    }
+  </div>
+
+  <button type="button" class="btn btn-primary mb-3" (click)="addComment()">Ajouter un commentaire</button>
+  <br>
+  <button type="submit" class="btn btn-success">Valider</button>
+</form>

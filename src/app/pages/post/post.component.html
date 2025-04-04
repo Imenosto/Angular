@@ -1,0 +1,43 @@
+<h1 class="text-center my-4">Détails du post n°{{ id }}</h1>
+
+<div class="container">
+  <div class="row justify-content-center g-4">
+    <div class="col-12 col-lg-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          @if (post) {
+            <h2 class="card-title text-primary">{{ post.title }}</h2>
+            <h5 class="text-muted mb-3">
+              Écrit par
+              <a [routerLink]="['/users', post.userId, 'posts']" class="link-primary">
+                utilisateur n°{{ post.userId }}
+              </a>
+            </h5>
+            <p class="card-text">{{ post.body }}</p>
+          }
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-8">
+      <div class="card mt-4">
+        <div class="card-header bg-light">
+          <h4 class="mb-0">Commentaires</h4>
+        </div>
+        <div class="card-body">
+          @if (comments.length > 0) {
+            <ul class="list-group list-group-flush">
+              @for (comment of comments; track comment.id) {
+                <li class="list-group-item">
+                  <strong>{{ comment.name }}</strong>
+                  <span class="text-muted small"> — {{ comment.email }}</span>
+                  <p class="mb-0 mt-2">{{ comment.body }}</p>
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
